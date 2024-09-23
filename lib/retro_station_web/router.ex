@@ -14,10 +14,20 @@ defmodule RetroStationWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", RetroStationWeb do
+  live_session :default do
+    scope "/", RetroStationWeb do
+      pipe_through :browser
+
+      get "/", RedirectController, :index
+
+      live "/home", HomeLive, :home
+    end
+  end
+
+  scope "/api", RetroStationWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
   end
 
   # Other scopes may use custom stacks.
